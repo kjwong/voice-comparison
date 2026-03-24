@@ -45,18 +45,6 @@ def generate_elevenlabs(voice_id, model, text):
     return resp.content
 
 
-def generate_openai(voice_id, model, text):
-    resp = requests.post(
-        "https://api.openai.com/v1/audio/speech",
-        json={"model": model, "voice": voice_id, "input": text,
-              "response_format": "mp3"},
-        headers={"Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}",
-                 "Content-Type": "application/json"},
-        timeout=30,
-    )
-    resp.raise_for_status()
-    return resp.content
-
 
 def generate_azure(voice_id, text):
     region = "southeastasia"
@@ -102,7 +90,6 @@ def generate_google(voice_id, text):
 
 GENERATORS = {
     "elevenlabs": lambda v, t: generate_elevenlabs(v["voiceId"], v["model"], t),
-    "openai": lambda v, t: generate_openai(v["voiceId"], v["model"], t),
     "azure": lambda v, t: generate_azure(v["voiceId"], t),
     "google": lambda v, t: generate_google(v["voiceId"], t),
 }
@@ -133,13 +120,21 @@ def process_voice(voice, samples, voice_filter):
             print(f"  SKIP {key}/{st} (exists)")
             continue
         print(f"  {key}/{st} via {voice['provider']}...", end=" ", flush=True)
-        try:
-            raw = gen(voice, samples[st])
-            normalize(raw).export(str(out_file), format="mp3", bitrate="128k")
-            print(f"OK ({out_file.stat().st_size // 1024}KB)")
-            time.sleep(1)  # avoid rate limits
-        except Exception as e:
-            print(f"FAIL: {e}")
+        for attempt in range(3):
+            try:
+                raw = gen(voice, samples[st])
+                normalize(raw).export(str(out_file), format="mp3", bitrate="128k")
+                print(f"OK ({out_file.stat().st_size // 1024}KB)")
+                time.sleep(2)
+                break
+            except Exception as e:
+                if "429" in str(e) and attempt < 2:
+                    wait = (attempt + 1) * 10
+                    print(f"rate limited, waiting {wait}s...", end=" ", flush=True)
+                    time.sleep(wait)
+                else:
+                    print(f"FAIL: {e}")
+                    break
 
 
 def main():
