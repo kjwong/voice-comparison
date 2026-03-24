@@ -9,9 +9,8 @@ Usage:
 Requires .env in project root:
     ELEVENLABS_API_KEY=...
     OPENAI_API_KEY=...
-    AZURE_SPEECH_KEY=...
-    AZURE_SPEECH_REGION=...
-    GOOGLE_TTS_API_KEY=...
+    AZURE_TTS_API_KEY=...
+    GOOGLE_APPLICATION_CREDENTIALS_RAW=...  (base64-encoded service account JSON)
 """
 
 import argparse
@@ -59,7 +58,7 @@ def generate_openai(voice_id, model, text):
 
 
 def generate_azure(voice_id, text):
-    region = os.environ["AZURE_SPEECH_REGION"]
+    region = "southeastasia"
     safe = (text.replace("&", "&amp;").replace("<", "&lt;")
             .replace(">", "&gt;").replace("'", "&apos;").replace('"', "&quot;"))
     ssml = (
@@ -69,7 +68,7 @@ def generate_azure(voice_id, text):
     resp = requests.post(
         f"https://{region}.tts.speech.microsoft.com/cognitiveservices/v1",
         data=ssml.encode("utf-8"),
-        headers={"Ocp-Apim-Subscription-Key": os.environ["AZURE_SPEECH_KEY"],
+        headers={"Ocp-Apim-Subscription-Key": os.environ["AZURE_TTS_API_KEY"],
                  "Content-Type": "application/ssml+xml",
                  "X-Microsoft-OutputFormat": "audio-24khz-48kbitrate-mono-mp3"},
         timeout=30,
@@ -78,19 +77,26 @@ def generate_azure(voice_id, text):
     return resp.content
 
 
+def _get_google_tts_client():
+    from google.cloud import texttospeech
+    from google.oauth2 import service_account
+    credentials = service_account.Credentials.from_service_account_info(
+        json.loads(base64.b64decode(os.environ["GOOGLE_APPLICATION_CREDENTIALS_RAW"]).decode("utf-8"))
+    )
+    return texttospeech.TextToSpeechClient(credentials=credentials)
+
+
 def generate_google(voice_id, text):
+    from google.cloud import texttospeech
+    client = _get_google_tts_client()
     parts = voice_id.split("-")
     lang = f"{parts[0]}-{parts[1]}"
-    resp = requests.post(
-        f"https://texttospeech.googleapis.com/v1/text:synthesize"
-        f"?key={os.environ['GOOGLE_TTS_API_KEY']}",
-        json={"input": {"text": text},
-              "voice": {"languageCode": lang, "name": voice_id},
-              "audioConfig": {"audioEncoding": "MP3"}},
-        timeout=30,
+    response = client.synthesize_speech(
+        input=texttospeech.SynthesisInput(text=text),
+        voice=texttospeech.VoiceSelectionParams(language_code=lang, name=voice_id),
+        audio_config=texttospeech.AudioConfig(audio_encoding=texttospeech.AudioEncoding.MP3),
     )
-    resp.raise_for_status()
-    return base64.b64decode(resp.json()["audioContent"])
+    return response.audio_content
 
 
 GENERATORS = {
