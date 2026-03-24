@@ -116,7 +116,7 @@ def generate_inworld(voice_id, model, text, speed=None):
     )
     resp.raise_for_status()
     data = resp.json()
-    return base64.b64decode(data["audio"])
+    return base64.b64decode(data["audioContent"])
 
 
 _google_client = None
