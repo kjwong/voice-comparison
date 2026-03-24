@@ -11,8 +11,11 @@
     proxyKey: "",
   };
 
-  var SAMPLE_TYPES = ["sample1", "sample2", "sample3"];
-  var SAMPLE_LABELS = { sample1: "Audio 1", sample2: "Audio 2", sample3: "Audio 3" };
+  var SAMPLE_TYPES = ["sample1", "sample2", "sample3", "sample1_slow", "sample1_fast"];
+  var SAMPLE_LABELS = {
+    sample1: "Audio 1", sample2: "Audio 2", sample3: "Audio 3",
+    sample1_slow: "Audio 1 Slow", sample1_fast: "Audio 1 Fast"
+  };
 
   // --- Init ---
   function init() {
