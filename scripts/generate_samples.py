@@ -119,6 +119,28 @@ def generate_inworld(voice_id, model, text, speed=None):
     return base64.b64decode(data["audioContent"])
 
 
+def generate_cartesia(voice_id, text, speed=None):
+    payload = {
+        "model_id": "sonic-2",
+        "transcript": text,
+        "voice": {"mode": "id", "id": voice_id},
+        "output_format": {"container": "mp3", "sample_rate": 44100, "bit_rate": 128000},
+        "language": "en",
+    }
+    if speed is not None:
+        payload["generation_config"] = {"speed": max(0.6, min(1.5, speed))}
+    resp = requests.post(
+        "https://api.cartesia.ai/tts/bytes",
+        json=payload,
+        headers={"X-API-Key": os.environ["CARTESIA_API_KEY"],
+                 "Cartesia-Version": "2025-04-16",
+                 "Content-Type": "application/json"},
+        timeout=30,
+    )
+    resp.raise_for_status()
+    return resp.content
+
+
 _google_client = None
 
 def _get_google_tts_client():
@@ -155,6 +177,7 @@ GENERATORS = {
     "azure": lambda v, t, s: generate_azure(v["voiceId"], t, s),
     "google": lambda v, t, s: generate_google(v["voiceId"], t, s),
     "inworld": lambda v, t, s: generate_inworld(v["voiceId"], v["model"], t, s),
+    "cartesia": lambda v, t, s: generate_cartesia(v["voiceId"], t, s),
 }
 
 
