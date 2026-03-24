@@ -18,6 +18,7 @@ import base64
 import io
 import json
 import os
+import time
 from pathlib import Path
 
 import requests
@@ -28,7 +29,7 @@ load_dotenv()
 
 PROJECT_ROOT = Path(__file__).parent.parent
 VOICES_JSON = PROJECT_ROOT / "voices.json"
-SAMPLE_TYPES = ["conversational", "formal", "emotional"]
+SAMPLE_TYPES = ["sample1", "sample2", "sample3"]
 TARGET_DBFS = -20.0
 
 
@@ -136,6 +137,7 @@ def process_voice(voice, samples, voice_filter):
             raw = gen(voice, samples[st])
             normalize(raw).export(str(out_file), format="mp3", bitrate="128k")
             print(f"OK ({out_file.stat().st_size // 1024}KB)")
+            time.sleep(1)  # avoid rate limits
         except Exception as e:
             print(f"FAIL: {e}")
 

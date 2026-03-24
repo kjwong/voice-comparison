@@ -12,7 +12,8 @@
     proxyKey: "",
   };
 
-  var SAMPLE_TYPES = ["conversational", "formal", "emotional"];
+  var SAMPLE_TYPES = ["sample1", "sample2", "sample3"];
+  var SAMPLE_LABELS = { sample1: "Audio 1", sample2: "Audio 2", sample3: "Audio 3" };
 
   function init() {
     fetch("voices.json")
@@ -74,7 +75,7 @@
         icon.textContent = "\u25B6";
         btn.appendChild(icon);
         btn.appendChild(document.createTextNode(
-          " " + st.charAt(0).toUpperCase() + st.slice(1)
+          " " + SAMPLE_LABELS[st]
         ));
         btn.addEventListener("click", function () { playAudio(btn); });
         playBtns.appendChild(btn);
@@ -145,7 +146,7 @@
     icon.textContent = "\u25B6";
     btn.appendChild(icon);
     btn.appendChild(document.createTextNode(
-      " " + type.charAt(0).toUpperCase() + type.slice(1)
+      " " + (SAMPLE_LABELS[type] || type)
     ));
   }
 
