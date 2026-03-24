@@ -134,6 +134,32 @@
       "latency": "200-300ms",
       "speedControl": "SSML prosody",
       "audioPath": "audio/google/aoede"
+    },
+    {
+      "key": "ashley",
+      "name": "Ashley",
+      "provider": "inworld",
+      "voiceId": "Ashley",
+      "model": "inworld-tts-1.5-max",
+      "gender": "F",
+      "accent": "US",
+      "costPer1M": "$10",
+      "latency": "<250ms",
+      "speedControl": "0.5-1.5x",
+      "audioPath": "audio/inworld/ashley"
+    },
+    {
+      "key": "hades",
+      "name": "Hades",
+      "provider": "inworld",
+      "voiceId": "Hades",
+      "model": "inworld-tts-1.5-max",
+      "gender": "M",
+      "accent": "US",
+      "costPer1M": "$10",
+      "latency": "<250ms",
+      "speedControl": "0.5-1.5x",
+      "audioPath": "audio/inworld/hades"
     }
   ],
   "current": [

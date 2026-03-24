@@ -94,6 +94,31 @@ def generate_azure(voice_id, text, speed=None):
     return resp.content
 
 
+def generate_inworld(voice_id, model, text, speed=None):
+    payload = {
+        "text": text,
+        "voiceId": voice_id,
+        "modelId": model,
+        "audioConfig": {
+            "audioEncoding": "MP3",
+            "sampleRateHertz": 44100,
+            "bitRate": 128000,
+        },
+    }
+    if speed is not None:
+        payload["audioConfig"]["speakingRate"] = max(0.5, min(1.5, speed))
+    resp = requests.post(
+        "https://api.inworld.ai/tts/v1/voice",
+        json=payload,
+        headers={"Authorization": f"Basic {os.environ['INWORLD_API_KEY']}",
+                 "Content-Type": "application/json"},
+        timeout=30,
+    )
+    resp.raise_for_status()
+    data = resp.json()
+    return base64.b64decode(data["audio"])
+
+
 _google_client = None
 
 def _get_google_tts_client():
@@ -129,6 +154,7 @@ GENERATORS = {
     "elevenlabs": lambda v, t, s: generate_elevenlabs(v["voiceId"], v["model"], t, s),
     "azure": lambda v, t, s: generate_azure(v["voiceId"], t, s),
     "google": lambda v, t, s: generate_google(v["voiceId"], t, s),
+    "inworld": lambda v, t, s: generate_inworld(v["voiceId"], v["model"], t, s),
 }
 
 
