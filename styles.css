@@ -25,16 +25,17 @@ h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: #6e6e73; 
     font-size: 0.85rem; font-family: inherit; resize: vertical;
     min-height: 2.5rem; max-height: 6rem;
 }
-.speed-control {
-    display: flex; flex-direction: column; gap: 0.2rem; min-width: 120px;
+.generate-controls { display: flex; gap: 0.4rem; align-items: center; }
+.generate-controls select {
+    padding: 0.4rem 0.5rem; border: 1px solid #d2d2d7; border-radius: 0.5rem;
+    font-size: 0.85rem; font-family: inherit; background: white; cursor: pointer;
 }
-.speed-control label { font-size: 0.75rem; color: #6e6e73; white-space: nowrap; }
-#speed-slider { width: 100%; cursor: pointer; }
-#generate-starred {
+#voice-select { min-width: 140px; }
+#generate-btn {
     padding: 0.5rem 1rem; border: 1px solid #0071e3; border-radius: 0.5rem;
     background: #0071e3; color: white; cursor: pointer; font-size: 0.85rem; white-space: nowrap;
 }
-#generate-starred:disabled { opacity: 0.4; cursor: not-allowed; }
+#generate-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
 .voice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
 

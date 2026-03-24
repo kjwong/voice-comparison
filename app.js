@@ -7,7 +7,6 @@
     currentBtn: null,
     genderFilter: "all",
     starred: JSON.parse(localStorage.getItem("starred") || "[]"),
-    customText: "",
     proxyUrl: "",
     proxyKey: "",
   };
@@ -15,6 +14,7 @@
   var SAMPLE_TYPES = ["sample1", "sample2", "sample3"];
   var SAMPLE_LABELS = { sample1: "Audio 1", sample2: "Audio 2", sample3: "Audio 3" };
 
+  // --- Init ---
   function init() {
     fetch("voices.json")
       .then(function (r) { return r.json(); })
@@ -22,13 +22,39 @@
         state.voices = data;
         renderCards("candidates-grid", data.candidates, false);
         renderCards("current-grid", data.current, true);
+        populateVoiceSelect();
         bindFilterButtons();
         bindCustomInput();
-        bindGenerateStarred();
-        bindSpeedSlider();
+        bindGenerate();
       });
   }
 
+  // --- Voice Select Dropdown ---
+  function populateVoiceSelect() {
+    var select = document.getElementById("voice-select");
+    var all = state.voices.candidates.concat(state.voices.current);
+
+    var groups = {};
+    all.forEach(function (v) {
+      var label = v.provider;
+      if (!groups[label]) groups[label] = [];
+      groups[label].push(v);
+    });
+
+    Object.keys(groups).forEach(function (provider) {
+      var optgroup = document.createElement("optgroup");
+      optgroup.label = provider;
+      groups[provider].forEach(function (v) {
+        var opt = document.createElement("option");
+        opt.value = v.key;
+        opt.textContent = v.name + " (" + v.accent + " " + v.gender + ")";
+        optgroup.appendChild(opt);
+      });
+      select.appendChild(optgroup);
+    });
+  }
+
+  // --- Card Rendering ---
   function renderCards(containerId, voices, isCurrent) {
     var container = document.getElementById(containerId);
     var template = document.getElementById("card-template");
@@ -86,6 +112,7 @@
     });
   }
 
+  // --- Audio Playback ---
   function playAudio(btn) {
     var src = btn.dataset.src;
     var card = btn.closest(".voice-card");
@@ -120,6 +147,15 @@
     audio.play();
   }
 
+  function playAudioFromUrl(url) {
+    stopAudio();
+    var audio = new Audio(url);
+    state.currentAudio = audio;
+    state.currentBtn = null;
+    audio.addEventListener("ended", stopAudio);
+    audio.play();
+  }
+
   function stopAudio() {
     if (state.currentAudio) {
       state.currentAudio.pause();
@@ -151,6 +187,7 @@
     ));
   }
 
+  // --- Gender Filter ---
   function bindFilterButtons() {
     var btns = document.querySelectorAll(".filter-btn");
     btns.forEach(function (btn) {
@@ -174,6 +211,7 @@
     });
   }
 
+  // --- Favorites ---
   function toggleStar(btn, key) {
     var idx = state.starred.indexOf(key);
     if (idx >= 0) {
@@ -184,134 +222,76 @@
       btn.classList.add("starred");
     }
     localStorage.setItem("starred", JSON.stringify(state.starred));
-    updateGenerateStarredBtn();
   }
 
-  function bindSpeedSlider() {
-    var slider = document.getElementById("speed-slider");
-    var label = document.getElementById("speed-value");
-    slider.addEventListener("input", function () {
-      label.textContent = parseFloat(slider.value).toFixed(1) + "x";
-    });
-  }
-
-  function getSpeed() {
-    return parseFloat(document.getElementById("speed-slider").value);
-  }
-
+  // --- Custom Input + Generate ---
   function bindCustomInput() {
     var ta = document.getElementById("custom-text");
     ta.addEventListener("input", function () {
-      state.customText = ta.value.trim();
-      toggleGenerateButtons(state.customText.length > 0);
-      updateGenerateStarredBtn();
+      updateGenerateBtn();
     });
+    document.getElementById("voice-select").addEventListener("change", updateGenerateBtn);
   }
 
-  function toggleGenerateButtons(show) {
-    document.querySelectorAll(".voice-card").forEach(function (card) {
-      var existing = card.querySelector(".generate-btn");
-      var playBtns = card.querySelector(".play-buttons");
-      if (show && !existing) {
-        var btn = document.createElement("button");
-        btn.className = "generate-btn";
-        btn.textContent = "Generate";
-        btn.addEventListener("click", function () {
-          generateForVoice(card, btn);
-        });
-        playBtns.appendChild(btn);
-      } else if (!show && existing) {
-        existing.remove();
-        var dynBtn = card.querySelector('.play-btn[data-type="custom"]');
-        if (dynBtn) dynBtn.remove();
+  function updateGenerateBtn() {
+    var btn = document.getElementById("generate-btn");
+    var text = document.getElementById("custom-text").value.trim();
+    var voice = document.getElementById("voice-select").value;
+    btn.disabled = !text || !voice || !state.proxyUrl;
+  }
+
+  function bindGenerate() {
+    document.getElementById("generate-btn").addEventListener("click", function () {
+      var btn = document.getElementById("generate-btn");
+      var text = document.getElementById("custom-text").value.trim();
+      var voiceKey = document.getElementById("voice-select").value;
+      var speed = parseFloat(document.getElementById("speed-select").value);
+
+      if (!text || !voiceKey || !state.proxyUrl) return;
+
+      var all = state.voices.candidates.concat(state.voices.current);
+      var voice = null;
+      for (var i = 0; i < all.length; i++) {
+        if (all[i].key === voiceKey) { voice = all[i]; break; }
       }
+      if (!voice) return;
+
+      btn.disabled = true;
+      btn.textContent = "Generating...";
+
+      fetch(state.proxyUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-proxy-key": state.proxyKey,
+        },
+        body: JSON.stringify({
+          provider: voice.provider,
+          voice_id: voice.voiceId,
+          text: text,
+          model: voice.model,
+          speed: speed,
+        }),
+      })
+        .then(function (resp) {
+          if (!resp.ok) throw new Error("HTTP " + resp.status);
+          return resp.blob();
+        })
+        .then(function (blob) {
+          var url = URL.createObjectURL(blob);
+          btn.disabled = false;
+          btn.textContent = "Generate";
+          playAudioFromUrl(url);
+        })
+        .catch(function (err) {
+          btn.disabled = false;
+          btn.textContent = "Failed — retry?";
+          console.error("Generate failed:", err);
+          setTimeout(function () { btn.textContent = "Generate"; }, 3000);
+        });
     });
   }
 
-  function generateForVoice(card, genBtn) {
-    if (!state.proxyUrl || !state.customText) return;
-    var key = card.dataset.key;
-    var all = state.voices.candidates.concat(state.voices.current);
-    var voice = null;
-    for (var i = 0; i < all.length; i++) {
-      if (all[i].key === key) { voice = all[i]; break; }
-    }
-    if (!voice) return;
-
-    genBtn.classList.add("loading");
-    genBtn.classList.remove("failed");
-    genBtn.textContent = "Generating...";
-
-    fetch(state.proxyUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-proxy-key": state.proxyKey,
-      },
-      body: JSON.stringify({
-        provider: voice.provider,
-        voice_id: voice.voiceId,
-        text: state.customText,
-        model: voice.model,
-        speed: getSpeed(),
-      }),
-    })
-      .then(function (resp) {
-        if (!resp.ok) throw new Error("HTTP " + resp.status);
-        return resp.blob();
-      })
-      .then(function (blob) {
-        var url = URL.createObjectURL(blob);
-        var dynBtn = card.querySelector('.play-btn[data-type="custom"]');
-        if (!dynBtn) {
-          dynBtn = document.createElement("button");
-          dynBtn.className = "play-btn";
-          dynBtn.dataset.voice = key;
-          dynBtn.dataset.type = "custom";
-          var icon = document.createElement("span");
-          icon.className = "icon";
-          icon.textContent = "\u25B6";
-          dynBtn.appendChild(icon);
-          dynBtn.appendChild(document.createTextNode(" Custom"));
-          dynBtn.addEventListener("click", function () { playAudio(dynBtn); });
-          card.querySelector(".play-buttons").insertBefore(dynBtn, genBtn);
-        }
-        dynBtn.dataset.src = url;
-        genBtn.classList.remove("loading");
-        genBtn.textContent = "Generate";
-        playAudio(dynBtn);
-      })
-      .catch(function (err) {
-        genBtn.classList.remove("loading");
-        genBtn.classList.add("failed");
-        genBtn.textContent = "Failed";
-        console.error("Generate failed for " + key + ":", err);
-      });
-  }
-
-  function bindGenerateStarred() {
-    document.getElementById("generate-starred")
-      .addEventListener("click", function () {
-        if (!state.proxyUrl || !state.customText ||
-            state.starred.length === 0) return;
-        state.starred.forEach(function (key) {
-          var card = document.querySelector(
-            '.voice-card[data-key="' + CSS.escape(key) + '"]'
-          );
-          var genBtn = card && card.querySelector(".generate-btn");
-          if (card && genBtn) generateForVoice(card, genBtn);
-        });
-      });
-  }
-
-  function updateGenerateStarredBtn() {
-    var btn = document.getElementById("generate-starred");
-    var n = state.starred.length;
-    btn.disabled = !state.customText || n === 0 || !state.proxyUrl;
-    btn.textContent = n > 0
-      ? "Generate for " + n + " starred"
-      : "Generate for starred";
-  }
-
+  // --- Boot ---
   document.addEventListener("DOMContentLoaded", init);
 })();
