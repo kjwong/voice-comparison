@@ -25,6 +25,7 @@
         bindFilterButtons();
         bindCustomInput();
         bindGenerateStarred();
+        bindSpeedSlider();
       });
   }
 
@@ -186,6 +187,18 @@
     updateGenerateStarredBtn();
   }
 
+  function bindSpeedSlider() {
+    var slider = document.getElementById("speed-slider");
+    var label = document.getElementById("speed-value");
+    slider.addEventListener("input", function () {
+      label.textContent = parseFloat(slider.value).toFixed(1) + "x";
+    });
+  }
+
+  function getSpeed() {
+    return parseFloat(document.getElementById("speed-slider").value);
+  }
+
   function bindCustomInput() {
     var ta = document.getElementById("custom-text");
     ta.addEventListener("input", function () {
@@ -240,6 +253,7 @@
         voice_id: voice.voiceId,
         text: state.customText,
         model: voice.model,
+        speed: getSpeed(),
       }),
     })
       .then(function (resp) {

@@ -97,17 +97,43 @@
       "audioPath": "audio/azure/jimmie"
     },
     {
-      "key": "charon",
-      "name": "Charon",
+      "key": "tyler",
+      "name": "Tyler",
+      "provider": "azure",
+      "voiceId": "en-US-Tyler:DragonHDFlashLatestNeural",
+      "model": "DragonHDFlash",
+      "gender": "M",
+      "accent": "US",
+      "costPer1M": "$16",
+      "latency": "<300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/azure/tyler"
+    },
+    {
+      "key": "puck",
+      "name": "Puck",
       "provider": "google",
-      "voiceId": "en-GB-Chirp3-HD-Charon",
+      "voiceId": "en-US-Chirp3-HD-Puck",
       "model": "Chirp3-HD",
       "gender": "M",
-      "accent": "British",
+      "accent": "US",
       "costPer1M": "$30",
       "latency": "200-300ms",
       "speedControl": "SSML prosody",
-      "audioPath": "audio/google/charon"
+      "audioPath": "audio/google/puck"
+    },
+    {
+      "key": "aoede",
+      "name": "Aoede",
+      "provider": "google",
+      "voiceId": "en-US-Chirp3-HD-Aoede",
+      "model": "Chirp3-HD",
+      "gender": "F",
+      "accent": "US",
+      "costPer1M": "$30",
+      "latency": "200-300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/google/aoede"
     }
   ],
   "current": [
