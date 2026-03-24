@@ -40,10 +40,20 @@ SAMPLES_TO_GENERATE = {
 }
 
 
+ELEVENLABS_DEFAULT_SETTINGS = {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.0,
+    "use_speaker_boost": True,
+}
+
+
 def generate_elevenlabs(voice_id, model, text, speed=None):
     payload = {"text": text, "model_id": model}
     if speed is not None:
-        payload["voice_settings"] = {"speed": max(0.7, min(1.2, speed))}
+        settings = dict(ELEVENLABS_DEFAULT_SETTINGS)
+        settings["speed"] = max(0.7, min(1.2, speed))
+        payload["voice_settings"] = settings
     resp = requests.post(
         f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}?output_format=mp3_44100_128",
         json=payload,
