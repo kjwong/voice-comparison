@@ -15,7 +15,7 @@
       "accent": "US",
       "costPer1M": "$140",
       "latency": "75-200ms",
-      "speedControl": "0.7-1.2x",
+      "speedControl": "Limited (0.7-1.2x)",
       "audioPath": "audio/elevenlabs/rachel"
     },
     {
@@ -28,7 +28,7 @@
       "accent": "British",
       "costPer1M": "$140",
       "latency": "75-200ms",
-      "speedControl": "0.7-1.2x",
+      "speedControl": "Limited (0.7-1.2x)",
       "audioPath": "audio/elevenlabs/alice"
     },
     {
@@ -67,7 +67,7 @@
       "accent": "US",
       "costPer1M": "$140",
       "latency": "75-200ms",
-      "speedControl": "0.7-1.2x",
+      "speedControl": "Limited (0.7-1.2x)",
       "audioPath": "audio/elevenlabs/josh"
     },
     {
@@ -80,7 +80,7 @@
       "accent": "British",
       "costPer1M": "$140",
       "latency": "75-200ms",
-      "speedControl": "0.7-1.2x",
+      "speedControl": "Limited (0.7-1.2x)",
       "audioPath": "audio/elevenlabs/daniel"
     },
     {

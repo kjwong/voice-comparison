@@ -41,12 +41,11 @@ SAMPLES_TO_GENERATE = {
 
 
 def generate_elevenlabs(voice_id, model, text, speed=None):
-    payload = {"text": text, "model_id": model, "output_format": "mp3_44100_128"}
+    payload = {"text": text, "model_id": model}
     if speed is not None:
-        # ElevenLabs speed range: 0.7-1.2
-        payload["speed"] = max(0.7, min(1.2, speed))
+        payload["voice_settings"] = {"speed": max(0.7, min(1.2, speed))}
     resp = requests.post(
-        f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}",
+        f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}?output_format=mp3_44100_128",
         json=payload,
         headers={"xi-api-key": os.environ["ELEVENLABS_API_KEY"],
                  "Content-Type": "application/json"},
