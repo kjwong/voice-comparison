@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Comparison</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Voice Comparison</h1>
+        <div class="controls">
+            <div class="gender-filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="M">Male</button>
+                <button class="filter-btn" data-filter="F">Female</button>
+            </div>
+            <div class="custom-input">
+                <textarea id="custom-text"
+                    placeholder="Type custom text to generate with any voice..."></textarea>
+                <button id="generate-starred" disabled>Generate for starred</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="candidates-section">
+            <h2>New Voices</h2>
+            <div id="candidates-grid" class="voice-grid"></div>
+        </section>
+        <section id="current-section">
+            <h2>Current Production Voices</h2>
+            <div id="current-grid" class="voice-grid"></div>
+        </section>
+    </main>
+
+    <!-- Card template — cloned by JS, never rendered directly -->
+    <template id="card-template">
+        <div class="voice-card">
+            <div class="card-header">
+                <div>
+                    <div class="voice-name"></div>
+                    <div class="provider-label"></div>
+                </div>
+                <button class="star-btn" title="Star this voice">&#9733;</button>
+            </div>
+            <div class="badges"></div>
+            <div class="stats">
+                <div><span class="stat-label">Cost</span><br><span class="stat-cost"></span></div>
+                <div><span class="stat-label">Latency</span><br><span class="stat-latency"></span></div>
+                <div><span class="stat-label">Speed</span><br><span class="stat-speed"></span></div>
+            </div>
+            <div class="play-buttons"></div>
+            <div class="audio-progress"><div class="audio-progress-bar"></div></div>
+        </div>
+    </template>
+
+    <script src="app.js"></script>
+</body>
+</html>
