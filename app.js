@@ -6,6 +6,7 @@
     currentAudio: null,
     currentBtn: null,
     genderFilter: "all",
+    providerFilter: "all",
     starred: JSON.parse(localStorage.getItem("starred") || "[]"),
     proxyUrl: "",
     proxyKey: "",
@@ -26,6 +27,7 @@
         renderCards("candidates-grid", data.candidates, false);
         renderCards("current-grid", data.current, true);
         populateVoiceSelect();
+        populateProviderFilters(data);
         bindFilterButtons();
         bindCustomInput();
         bindGenerate();
@@ -67,6 +69,7 @@
       if (isCurrent) card.classList.add("current-voice");
       card.dataset.gender = voice.gender;
       card.dataset.key = voice.key;
+      card.dataset.provider = voice.provider;
 
       card.querySelector(".voice-name").textContent = voice.name;
       card.querySelector(".provider-label").textContent =
@@ -190,23 +193,56 @@
     ));
   }
 
-  // --- Gender Filter ---
+  // --- Provider Filter ---
+  function populateProviderFilters(data) {
+    var container = document.getElementById("provider-filters");
+    var providers = [];
+    var seen = {};
+    data.candidates.concat(data.current).forEach(function (v) {
+      if (!seen[v.provider]) {
+        seen[v.provider] = true;
+        providers.push(v.provider);
+      }
+    });
+
+    var allBtn = document.createElement("button");
+    allBtn.className = "filter-btn provider-btn active";
+    allBtn.dataset.provider = "all";
+    allBtn.textContent = "All providers";
+    container.appendChild(allBtn);
+
+    providers.forEach(function (p) {
+      var btn = document.createElement("button");
+      btn.className = "filter-btn provider-btn";
+      btn.dataset.provider = p;
+      btn.textContent = p;
+      container.appendChild(btn);
+    });
+  }
+
+  // --- Filters ---
   function bindFilterButtons() {
-    var btns = document.querySelectorAll(".filter-btn");
-    btns.forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        btns.forEach(function (b) { b.classList.remove("active"); });
+    document.addEventListener("click", function (e) {
+      var btn = e.target;
+      if (btn.classList.contains("gender-btn")) {
+        document.querySelectorAll(".gender-btn").forEach(function (b) { b.classList.remove("active"); });
         btn.classList.add("active");
         state.genderFilter = btn.dataset.filter;
         applyFilter();
-      });
+      } else if (btn.classList.contains("provider-btn")) {
+        document.querySelectorAll(".provider-btn").forEach(function (b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+        state.providerFilter = btn.dataset.provider;
+        applyFilter();
+      }
     });
   }
 
   function applyFilter() {
     document.querySelectorAll(".voice-card").forEach(function (card) {
-      if (state.genderFilter === "all" ||
-          card.dataset.gender === state.genderFilter) {
+      var genderMatch = state.genderFilter === "all" || card.dataset.gender === state.genderFilter;
+      var providerMatch = state.providerFilter === "all" || card.dataset.provider === state.providerFilter;
+      if (genderMatch && providerMatch) {
         card.classList.remove("hidden");
       } else {
         card.classList.add("hidden");

@@ -12,7 +12,8 @@ h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: #6e6e73; 
 #current-section h2 { margin-top: 2rem; }
 .controls { display: flex; flex-direction: column; gap: 0.75rem; }
 
-.gender-filter { display: flex; gap: 0.5rem; }
+.filters { display: flex; gap: 1rem; flex-wrap: wrap; }
+.filter-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 .filter-btn {
     padding: 0.4rem 1rem; border: 1px solid #d2d2d7; border-radius: 999px;
     background: white; cursor: pointer; font-size: 0.85rem; transition: all 0.15s;

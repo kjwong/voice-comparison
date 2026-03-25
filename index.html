@@ -10,10 +10,13 @@
     <header>
         <h1>Voice Comparison</h1>
         <div class="controls">
-            <div class="gender-filter">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="M">Male</button>
-                <button class="filter-btn" data-filter="F">Female</button>
+            <div class="filters">
+                <div class="filter-group">
+                    <button class="filter-btn gender-btn active" data-filter="all">All</button>
+                    <button class="filter-btn gender-btn" data-filter="M">Male</button>
+                    <button class="filter-btn gender-btn" data-filter="F">Female</button>
+                </div>
+                <div class="filter-group" id="provider-filters"></div>
             </div>
             <div class="custom-input">
                 <textarea id="custom-text"
