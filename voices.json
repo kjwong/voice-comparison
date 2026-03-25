@@ -212,6 +212,58 @@
       "latency": "<250ms",
       "speedControl": "0.5-1.5x",
       "audioPath": "audio/inworld/nate"
+    },
+    {
+      "key": "olivia",
+      "name": "Olivia",
+      "provider": "inworld",
+      "voiceId": "Olivia",
+      "model": "inworld-tts-1.5-max",
+      "gender": "F",
+      "accent": "British",
+      "costPer1M": "$10",
+      "latency": "<250ms",
+      "speedControl": "0.5-1.5x",
+      "audioPath": "audio/inworld/olivia"
+    },
+    {
+      "key": "felix",
+      "name": "Felix",
+      "provider": "inworld",
+      "voiceId": "Felix",
+      "model": "inworld-tts-1.5-max",
+      "gender": "M",
+      "accent": "British",
+      "costPer1M": "$10",
+      "latency": "<250ms",
+      "speedControl": "0.5-1.5x",
+      "audioPath": "audio/inworld/felix"
+    },
+    {
+      "key": "kore-gb",
+      "name": "Kore (British)",
+      "provider": "google",
+      "voiceId": "en-GB-Chirp3-HD-Kore",
+      "model": "Chirp3-HD",
+      "gender": "F",
+      "accent": "British",
+      "costPer1M": "$30",
+      "latency": "200-300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/google/kore-gb"
+    },
+    {
+      "key": "puck-gb",
+      "name": "Puck (British)",
+      "provider": "google",
+      "voiceId": "en-GB-Chirp3-HD-Puck",
+      "model": "Chirp3-HD",
+      "gender": "M",
+      "accent": "British",
+      "costPer1M": "$30",
+      "latency": "200-300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/google/puck-gb"
     }
   ],
   "current": [
