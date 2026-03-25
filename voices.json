@@ -1,8 +1,8 @@
 {
   "samples": {
-    "sample1": "Hey, that was really good! You almost got it right. The tricky part is the tone on the third word — try saying it a bit more slowly this time and see if it clicks.",
-    "sample2": "The subjunctive mood is used to express wishes, hypothetical situations, and demands. For example, 'I suggest that he study harder' uses the subjunctive form rather than 'studies.'",
-    "sample3": "I know learning a new language can feel overwhelming sometimes. But honestly, you've made so much progress since we started. I'm really proud of how far you've come."
+    "sample1": "Hi, what's up? I'm Jamie, your AI tutor. It's great to meet you.",
+    "sample2": "I just had the busiest day. There was so much to do at work, and then my mom called me. How about you, what did you do today?",
+    "sample3": "Hey, that was really good! You almost got it right. The tricky part is the tone on the third word — try saying it a bit more slowly this time and see if it clicks."
   },
   "candidates": [
     {
