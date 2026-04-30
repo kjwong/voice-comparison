@@ -55,7 +55,8 @@
       "costPer1M": "$30",
       "latency": "200-300ms",
       "speedControl": "SSML prosody",
-      "audioPath": "audio/google/kore"
+      "audioPath": "audio/google/kore",
+      "consideredLastTime": true
     },
     {
       "key": "josh",
@@ -172,7 +173,8 @@
       "costPer1M": "$10",
       "latency": "<250ms",
       "speedControl": "0.5-1.5x",
-      "audioPath": "audio/inworld/brian"
+      "audioPath": "audio/inworld/brian",
+      "willReplace": true
     },
     {
       "key": "lauren",
@@ -185,7 +187,8 @@
       "costPer1M": "$10",
       "latency": "<250ms",
       "speedControl": "0.5-1.5x",
-      "audioPath": "audio/inworld/lauren"
+      "audioPath": "audio/inworld/lauren",
+      "willReplace": true
     },
     {
       "key": "iw-jessica",
@@ -198,7 +201,8 @@
       "costPer1M": "$10",
       "latency": "<250ms",
       "speedControl": "0.5-1.5x",
-      "audioPath": "audio/inworld/jessica"
+      "audioPath": "audio/inworld/jessica",
+      "willReplace": true
     },
     {
       "key": "nate",
@@ -211,7 +215,8 @@
       "costPer1M": "$10",
       "latency": "<250ms",
       "speedControl": "0.5-1.5x",
-      "audioPath": "audio/inworld/nate"
+      "audioPath": "audio/inworld/nate",
+      "willReplace": true
     },
     {
       "key": "olivia",
@@ -264,6 +269,146 @@
       "latency": "200-300ms",
       "speedControl": "SSML prosody",
       "audioPath": "audio/google/puck-gb"
+    },
+    {
+      "key": "ava",
+      "name": "Ava",
+      "provider": "azure",
+      "voiceId": "en-US-Ava:DragonHDLatestNeural",
+      "model": "DragonHD",
+      "gender": "F",
+      "accent": "US",
+      "costPer1M": "$22",
+      "latency": "<300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/azure/ava",
+      "latest": true
+    },
+    {
+      "key": "leda",
+      "name": "Leda",
+      "provider": "google",
+      "voiceId": "en-US-Chirp3-HD-Leda",
+      "model": "Chirp3-HD",
+      "gender": "F",
+      "accent": "US",
+      "costPer1M": "$30",
+      "latency": "200-300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/google/leda",
+      "latest": true
+    },
+    {
+      "key": "andrew2",
+      "name": "Andrew2",
+      "provider": "azure",
+      "voiceId": "en-US-Andrew2:DragonHDLatestNeural",
+      "model": "DragonHD",
+      "gender": "M",
+      "accent": "US",
+      "costPer1M": "$22",
+      "latency": "<300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/azure/andrew2",
+      "latest": true
+    },
+    {
+      "key": "charon",
+      "name": "Charon",
+      "provider": "google",
+      "voiceId": "en-US-Chirp3-HD-Charon",
+      "model": "Chirp3-HD",
+      "gender": "M",
+      "accent": "US",
+      "costPer1M": "$30",
+      "latency": "200-300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/google/charon",
+      "latest": true
+    },
+    {
+      "key": "emma2",
+      "name": "Emma2",
+      "provider": "azure",
+      "voiceId": "en-US-Emma2:DragonHDLatestNeural",
+      "model": "DragonHD",
+      "gender": "F",
+      "accent": "US",
+      "costPer1M": "$22",
+      "latency": "<300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/azure/emma2",
+      "latest": true
+    },
+    {
+      "key": "aria-hd",
+      "name": "Aria (HD)",
+      "provider": "azure",
+      "voiceId": "en-US-Aria:DragonHDLatestNeural",
+      "model": "DragonHD",
+      "gender": "F",
+      "accent": "US",
+      "costPer1M": "$22",
+      "latency": "<300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/azure/aria-hd",
+      "latest": true
+    },
+    {
+      "key": "sulafat",
+      "name": "Sulafat",
+      "provider": "google",
+      "voiceId": "en-US-Chirp3-HD-Sulafat",
+      "model": "Chirp3-HD",
+      "gender": "F",
+      "accent": "US",
+      "costPer1M": "$30",
+      "latency": "200-300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/google/sulafat",
+      "latest": true
+    },
+    {
+      "key": "andrew",
+      "name": "Andrew",
+      "provider": "azure",
+      "voiceId": "en-US-Andrew:DragonHDLatestNeural",
+      "model": "DragonHD",
+      "gender": "M",
+      "accent": "US",
+      "costPer1M": "$22",
+      "latency": "<300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/azure/andrew",
+      "latest": true
+    },
+    {
+      "key": "brian-hd",
+      "name": "Brian (HD)",
+      "provider": "azure",
+      "voiceId": "en-US-Brian:DragonHDLatestNeural",
+      "model": "DragonHD",
+      "gender": "M",
+      "accent": "US",
+      "costPer1M": "$22",
+      "latency": "<300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/azure/brian-hd",
+      "latest": true
+    },
+    {
+      "key": "fenrir",
+      "name": "Fenrir",
+      "provider": "google",
+      "voiceId": "en-US-Chirp3-HD-Fenrir",
+      "model": "Chirp3-HD",
+      "gender": "M",
+      "accent": "US",
+      "costPer1M": "$30",
+      "latency": "200-300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/google/fenrir",
+      "latest": true
     }
   ],
   "current": [

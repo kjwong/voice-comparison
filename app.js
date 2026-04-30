@@ -24,7 +24,29 @@
       .then(function (r) { return r.json(); })
       .then(function (data) {
         state.voices = data;
-        renderCards("candidates-grid", data.candidates, false);
+
+        var groups = {
+          latest:     { ids: ["latest-section",        "latest-grid"],        items: [] },
+          willReplace:{ ids: ["will-replace-section",  "will-replace-grid"],  items: [] },
+          considered: { ids: ["considered-section",    "considered-grid"],    items: [] },
+          rest:       { ids: ["candidates-section",    "candidates-grid"],    items: [] },
+        };
+        data.candidates.forEach(function (v) {
+          if (v.latest) groups.latest.items.push(v);
+          else if (v.willReplace) groups.willReplace.items.push(v);
+          else if (v.consideredLastTime) groups.considered.items.push(v);
+          else groups.rest.items.push(v);
+        });
+        Object.keys(groups).forEach(function (k) {
+          var g = groups[k];
+          var section = document.getElementById(g.ids[0]);
+          if (g.items.length) {
+            renderCards(g.ids[1], g.items, false);
+          } else if (section) {
+            section.style.display = "none";
+          }
+        });
+
         renderCards("current-grid", data.current, true);
         populateVoiceSelect();
         populateProviderFilters(data);

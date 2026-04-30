@@ -9,7 +9,16 @@ body {
 header { margin-bottom: 2rem; }
 h1 { font-size: 1.75rem; font-weight: 600; margin-bottom: 1rem; }
 h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: #6e6e73; }
+#will-replace-section h2,
+#considered-section h2,
+#candidates-section h2,
 #current-section h2 { margin-top: 2rem; }
+#latest-section h2 { color: #0071e3; }
+#latest-section .voice-card { border-color: #0071e3; box-shadow: 0 0 0 1px #0071e3 inset; }
+#will-replace-section h2 { color: #d70015; }
+#will-replace-section .voice-card { background: #fff5f5; border-color: #ffb3b3; }
+#considered-section h2 { color: #8e8e93; }
+#considered-section .voice-card { background: #fafafa; border-style: dashed; }
 .controls { display: flex; flex-direction: column; gap: 0.75rem; }
 
 .filters { display: flex; gap: 1rem; flex-wrap: wrap; }
