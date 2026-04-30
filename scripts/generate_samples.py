@@ -35,6 +35,7 @@ SAMPLES_TO_GENERATE = {
     "sample1": (None,),
     "sample2": (None,),
     "sample3": (None,),
+    "sample4": (None,),
     "sample1_slow": ("sample1", 0.75),
     "sample1_fast": ("sample1", 1.2),
 }

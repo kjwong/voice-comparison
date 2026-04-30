@@ -2,7 +2,8 @@
   "samples": {
     "sample1": "Hi, what's up? I'm Jamie, your AI tutor. It's great to meet you.",
     "sample2": "I just had the busiest day. There was so much to do at work, and then my mom called me. How about you, what did you do today?",
-    "sample3": "Hey, that was really good! You almost got it right. The tricky part is the tone on the third word — try saying it a bit more slowly this time and see if it clicks."
+    "sample3": "Hey, that was really good! You almost got it right. The tricky part is the tone on the third word — try saying it a bit more slowly this time and see if it clicks.",
+    "sample4": "Nice! What kind of special powers would your wands have?"
   },
   "candidates": [
     {
@@ -504,6 +505,108 @@
       "rounds": [
         "2026-04-30"
       ]
+    },
+    {
+      "key": "despina",
+      "name": "Despina",
+      "provider": "google",
+      "voiceId": "en-US-Chirp3-HD-Despina",
+      "model": "Chirp3-HD",
+      "gender": "F",
+      "accent": "US",
+      "costPer1M": "$30",
+      "latency": "200-300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/google/despina",
+      "rounds": [
+        "2026-04-30"
+      ],
+      "latest": true
+    },
+    {
+      "key": "zephyr",
+      "name": "Zephyr",
+      "provider": "google",
+      "voiceId": "en-US-Chirp3-HD-Zephyr",
+      "model": "Chirp3-HD",
+      "gender": "F",
+      "accent": "US",
+      "costPer1M": "$30",
+      "latency": "200-300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/google/zephyr",
+      "rounds": [
+        "2026-04-30"
+      ],
+      "latest": true
+    },
+    {
+      "key": "vindemiatrix",
+      "name": "Vindemiatrix",
+      "provider": "google",
+      "voiceId": "en-US-Chirp3-HD-Vindemiatrix",
+      "model": "Chirp3-HD",
+      "gender": "F",
+      "accent": "US",
+      "costPer1M": "$30",
+      "latency": "200-300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/google/vindemiatrix",
+      "rounds": [
+        "2026-04-30"
+      ],
+      "latest": true
+    },
+    {
+      "key": "orus",
+      "name": "Orus",
+      "provider": "google",
+      "voiceId": "en-US-Chirp3-HD-Orus",
+      "model": "Chirp3-HD",
+      "gender": "M",
+      "accent": "US",
+      "costPer1M": "$30",
+      "latency": "200-300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/google/orus",
+      "rounds": [
+        "2026-04-30"
+      ],
+      "latest": true
+    },
+    {
+      "key": "iapetus",
+      "name": "Iapetus",
+      "provider": "google",
+      "voiceId": "en-US-Chirp3-HD-Iapetus",
+      "model": "Chirp3-HD",
+      "gender": "M",
+      "accent": "US",
+      "costPer1M": "$30",
+      "latency": "200-300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/google/iapetus",
+      "rounds": [
+        "2026-04-30"
+      ],
+      "latest": true
+    },
+    {
+      "key": "algieba",
+      "name": "Algieba",
+      "provider": "google",
+      "voiceId": "en-US-Chirp3-HD-Algieba",
+      "model": "Chirp3-HD",
+      "gender": "M",
+      "accent": "US",
+      "costPer1M": "$30",
+      "latency": "200-300ms",
+      "speedControl": "SSML prosody",
+      "audioPath": "audio/google/algieba",
+      "rounds": [
+        "2026-04-30"
+      ],
+      "latest": true
     }
   ],
   "current": [
