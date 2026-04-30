@@ -16,7 +16,10 @@
       "costPer1M": "$140",
       "latency": "75-200ms",
       "speedControl": "Limited (0.7-1.2x)",
-      "audioPath": "audio/elevenlabs/rachel"
+      "audioPath": "audio/elevenlabs/rachel",
+      "rounds": [
+        "2026-03-25"
+      ]
     },
     {
       "key": "alice",
@@ -29,7 +32,10 @@
       "costPer1M": "$140",
       "latency": "75-200ms",
       "speedControl": "Limited (0.7-1.2x)",
-      "audioPath": "audio/elevenlabs/alice"
+      "audioPath": "audio/elevenlabs/alice",
+      "rounds": [
+        "2026-03-25"
+      ]
     },
     {
       "key": "tiana",
@@ -42,7 +48,10 @@
       "costPer1M": "$16",
       "latency": "<300ms",
       "speedControl": "SSML prosody",
-      "audioPath": "audio/azure/tiana"
+      "audioPath": "audio/azure/tiana",
+      "rounds": [
+        "2026-03-25"
+      ]
     },
     {
       "key": "kore",
@@ -56,7 +65,11 @@
       "latency": "200-300ms",
       "speedControl": "SSML prosody",
       "audioPath": "audio/google/kore",
-      "consideredLastTime": true
+      "consideredLastTime": true,
+      "rounds": [
+        "2026-03-25",
+        "2026-04-30"
+      ]
     },
     {
       "key": "josh",
@@ -69,7 +82,10 @@
       "costPer1M": "$140",
       "latency": "75-200ms",
       "speedControl": "Limited (0.7-1.2x)",
-      "audioPath": "audio/elevenlabs/josh"
+      "audioPath": "audio/elevenlabs/josh",
+      "rounds": [
+        "2026-03-25"
+      ]
     },
     {
       "key": "daniel",
@@ -82,7 +98,10 @@
       "costPer1M": "$140",
       "latency": "75-200ms",
       "speedControl": "Limited (0.7-1.2x)",
-      "audioPath": "audio/elevenlabs/daniel"
+      "audioPath": "audio/elevenlabs/daniel",
+      "rounds": [
+        "2026-03-25"
+      ]
     },
     {
       "key": "jimmie",
@@ -95,7 +114,10 @@
       "costPer1M": "$16",
       "latency": "<300ms",
       "speedControl": "SSML prosody",
-      "audioPath": "audio/azure/jimmie"
+      "audioPath": "audio/azure/jimmie",
+      "rounds": [
+        "2026-03-25"
+      ]
     },
     {
       "key": "tyler",
@@ -108,7 +130,10 @@
       "costPer1M": "$16",
       "latency": "<300ms",
       "speedControl": "SSML prosody",
-      "audioPath": "audio/azure/tyler"
+      "audioPath": "audio/azure/tyler",
+      "rounds": [
+        "2026-03-25"
+      ]
     },
     {
       "key": "puck",
@@ -121,7 +146,10 @@
       "costPer1M": "$30",
       "latency": "200-300ms",
       "speedControl": "SSML prosody",
-      "audioPath": "audio/google/puck"
+      "audioPath": "audio/google/puck",
+      "rounds": [
+        "2026-03-25"
+      ]
     },
     {
       "key": "aoede",
@@ -134,7 +162,10 @@
       "costPer1M": "$30",
       "latency": "200-300ms",
       "speedControl": "SSML prosody",
-      "audioPath": "audio/google/aoede"
+      "audioPath": "audio/google/aoede",
+      "rounds": [
+        "2026-03-25"
+      ]
     },
     {
       "key": "katie",
@@ -147,7 +178,10 @@
       "costPer1M": "$40",
       "latency": "40-90ms",
       "speedControl": "0.6-1.5x",
-      "audioPath": "audio/cartesia/katie"
+      "audioPath": "audio/cartesia/katie",
+      "rounds": [
+        "2026-03-25"
+      ]
     },
     {
       "key": "kiefer",
@@ -160,7 +194,10 @@
       "costPer1M": "$40",
       "latency": "40-90ms",
       "speedControl": "0.6-1.5x",
-      "audioPath": "audio/cartesia/kiefer"
+      "audioPath": "audio/cartesia/kiefer",
+      "rounds": [
+        "2026-03-25"
+      ]
     },
     {
       "key": "iw-brian",
@@ -174,7 +211,11 @@
       "latency": "<250ms",
       "speedControl": "0.5-1.5x",
       "audioPath": "audio/inworld/brian",
-      "willReplace": true
+      "willReplace": true,
+      "rounds": [
+        "2026-03-25",
+        "2026-04-30"
+      ]
     },
     {
       "key": "lauren",
@@ -188,7 +229,11 @@
       "latency": "<250ms",
       "speedControl": "0.5-1.5x",
       "audioPath": "audio/inworld/lauren",
-      "willReplace": true
+      "willReplace": true,
+      "rounds": [
+        "2026-03-25",
+        "2026-04-30"
+      ]
     },
     {
       "key": "iw-jessica",
@@ -202,7 +247,11 @@
       "latency": "<250ms",
       "speedControl": "0.5-1.5x",
       "audioPath": "audio/inworld/jessica",
-      "willReplace": true
+      "willReplace": true,
+      "rounds": [
+        "2026-03-25",
+        "2026-04-30"
+      ]
     },
     {
       "key": "nate",
@@ -216,7 +265,11 @@
       "latency": "<250ms",
       "speedControl": "0.5-1.5x",
       "audioPath": "audio/inworld/nate",
-      "willReplace": true
+      "willReplace": true,
+      "rounds": [
+        "2026-03-25",
+        "2026-04-30"
+      ]
     },
     {
       "key": "olivia",
@@ -229,7 +282,10 @@
       "costPer1M": "$10",
       "latency": "<250ms",
       "speedControl": "0.5-1.5x",
-      "audioPath": "audio/inworld/olivia"
+      "audioPath": "audio/inworld/olivia",
+      "rounds": [
+        "2026-03-25"
+      ]
     },
     {
       "key": "felix",
@@ -242,7 +298,10 @@
       "costPer1M": "$10",
       "latency": "<250ms",
       "speedControl": "0.5-1.5x",
-      "audioPath": "audio/inworld/felix"
+      "audioPath": "audio/inworld/felix",
+      "rounds": [
+        "2026-03-25"
+      ]
     },
     {
       "key": "kore-gb",
@@ -255,7 +314,10 @@
       "costPer1M": "$30",
       "latency": "200-300ms",
       "speedControl": "SSML prosody",
-      "audioPath": "audio/google/kore-gb"
+      "audioPath": "audio/google/kore-gb",
+      "rounds": [
+        "2026-03-25"
+      ]
     },
     {
       "key": "puck-gb",
@@ -268,7 +330,10 @@
       "costPer1M": "$30",
       "latency": "200-300ms",
       "speedControl": "SSML prosody",
-      "audioPath": "audio/google/puck-gb"
+      "audioPath": "audio/google/puck-gb",
+      "rounds": [
+        "2026-03-25"
+      ]
     },
     {
       "key": "ava",
@@ -282,7 +347,10 @@
       "latency": "<300ms",
       "speedControl": "SSML prosody",
       "audioPath": "audio/azure/ava",
-      "latest": true
+      "latest": true,
+      "rounds": [
+        "2026-04-30"
+      ]
     },
     {
       "key": "leda",
@@ -296,7 +364,10 @@
       "latency": "200-300ms",
       "speedControl": "SSML prosody",
       "audioPath": "audio/google/leda",
-      "latest": true
+      "latest": true,
+      "rounds": [
+        "2026-04-30"
+      ]
     },
     {
       "key": "andrew2",
@@ -310,7 +381,10 @@
       "latency": "<300ms",
       "speedControl": "SSML prosody",
       "audioPath": "audio/azure/andrew2",
-      "latest": true
+      "latest": true,
+      "rounds": [
+        "2026-04-30"
+      ]
     },
     {
       "key": "charon",
@@ -324,7 +398,10 @@
       "latency": "200-300ms",
       "speedControl": "SSML prosody",
       "audioPath": "audio/google/charon",
-      "latest": true
+      "latest": true,
+      "rounds": [
+        "2026-04-30"
+      ]
     },
     {
       "key": "emma2",
@@ -338,7 +415,10 @@
       "latency": "<300ms",
       "speedControl": "SSML prosody",
       "audioPath": "audio/azure/emma2",
-      "latest": true
+      "latest": true,
+      "rounds": [
+        "2026-04-30"
+      ]
     },
     {
       "key": "aria-hd",
@@ -352,7 +432,10 @@
       "latency": "<300ms",
       "speedControl": "SSML prosody",
       "audioPath": "audio/azure/aria-hd",
-      "latest": true
+      "latest": true,
+      "rounds": [
+        "2026-04-30"
+      ]
     },
     {
       "key": "sulafat",
@@ -366,7 +449,10 @@
       "latency": "200-300ms",
       "speedControl": "SSML prosody",
       "audioPath": "audio/google/sulafat",
-      "latest": true
+      "latest": true,
+      "rounds": [
+        "2026-04-30"
+      ]
     },
     {
       "key": "andrew",
@@ -380,7 +466,10 @@
       "latency": "<300ms",
       "speedControl": "SSML prosody",
       "audioPath": "audio/azure/andrew",
-      "latest": true
+      "latest": true,
+      "rounds": [
+        "2026-04-30"
+      ]
     },
     {
       "key": "brian-hd",
@@ -394,7 +483,10 @@
       "latency": "<300ms",
       "speedControl": "SSML prosody",
       "audioPath": "audio/azure/brian-hd",
-      "latest": true
+      "latest": true,
+      "rounds": [
+        "2026-04-30"
+      ]
     },
     {
       "key": "fenrir",
@@ -408,7 +500,10 @@
       "latency": "200-300ms",
       "speedControl": "SSML prosody",
       "audioPath": "audio/google/fenrir",
-      "latest": true
+      "latest": true,
+      "rounds": [
+        "2026-04-30"
+      ]
     }
   ],
   "current": [

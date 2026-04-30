@@ -18,6 +18,16 @@ Live: <https://kjwong.github.io/voice-comparison/>
 
 A voice belongs to exactly one section — flags are checked in the order above. Toggling a flag in `voices.json` is the only thing needed to move a card; no code change.
 
+## Evaluation rounds (tabs)
+
+Every candidate also has a `rounds: ["YYYY-MM-DD"]` array indicating which evaluation sessions it belongs to. The page derives a tab bar from these dates, sorted newest-first, and defaults to the most recent round.
+
+- A voice can belong to multiple rounds (e.g., the Inworld voices are candidates on `2026-03-25` *and* "Will replace" on `2026-04-30`).
+- Section flags (`latest`, `willReplace`, `consideredLastTime`) are interpreted only on the most recent tab. Older tabs collapse all their voices into the "New Voices" section — those flags reflect today's framing, not historical context.
+- Production voices in `current[]` are tab-independent; they show on every tab.
+
+To start a new evaluation round, pick a date and add it to the `rounds` array of voices you're including. A new tab appears automatically.
+
 ## Adding a new voice
 
 1. Append a new object to `candidates[]` in `voices.json`. Use the same shape as existing entries — see `audioPath` matches `audio/<provider>/<key>/`.

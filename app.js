@@ -7,6 +7,7 @@
     currentBtn: null,
     genderFilter: "all",
     providerFilter: "all",
+    activeRound: null,
     starred: JSON.parse(localStorage.getItem("starred") || "[]"),
     proxyUrl: "",
     proxyKey: "",
@@ -24,29 +25,10 @@
       .then(function (r) { return r.json(); })
       .then(function (data) {
         state.voices = data;
-
-        var groups = {
-          latest:     { ids: ["latest-section",        "latest-grid"],        items: [] },
-          willReplace:{ ids: ["will-replace-section",  "will-replace-grid"],  items: [] },
-          considered: { ids: ["considered-section",    "considered-grid"],    items: [] },
-          rest:       { ids: ["candidates-section",    "candidates-grid"],    items: [] },
-        };
-        data.candidates.forEach(function (v) {
-          if (v.latest) groups.latest.items.push(v);
-          else if (v.willReplace) groups.willReplace.items.push(v);
-          else if (v.consideredLastTime) groups.considered.items.push(v);
-          else groups.rest.items.push(v);
-        });
-        Object.keys(groups).forEach(function (k) {
-          var g = groups[k];
-          var section = document.getElementById(g.ids[0]);
-          if (g.items.length) {
-            renderCards(g.ids[1], g.items, false);
-          } else if (section) {
-            section.style.display = "none";
-          }
-        });
-
+        var rounds = collectRounds(data.candidates);
+        state.activeRound = rounds[0] || null;
+        renderRoundTabs(rounds);
+        renderCandidates();
         renderCards("current-grid", data.current, true);
         populateVoiceSelect();
         populateProviderFilters(data);
@@ -54,6 +36,79 @@
         bindCustomInput();
         bindGenerate();
       });
+  }
+
+  // --- Round Tabs ---
+  function collectRounds(candidates) {
+    var seen = {};
+    candidates.forEach(function (v) {
+      (v.rounds || []).forEach(function (r) { seen[r] = true; });
+    });
+    return Object.keys(seen).sort().reverse();
+  }
+
+  function renderRoundTabs(rounds) {
+    var container = document.getElementById("round-tabs");
+    if (!container) return;
+    container.replaceChildren();
+    rounds.forEach(function (r) {
+      var btn = document.createElement("button");
+      btn.className = "round-tab" + (r === state.activeRound ? " active" : "");
+      btn.dataset.round = r;
+      btn.textContent = r;
+      btn.addEventListener("click", function () {
+        if (state.activeRound === r) return;
+        state.activeRound = r;
+        document.querySelectorAll(".round-tab").forEach(function (b) {
+          b.classList.toggle("active", b.dataset.round === r);
+        });
+        renderCandidates();
+      });
+      container.appendChild(btn);
+    });
+  }
+
+  function renderCandidates() {
+    ["latest-grid", "will-replace-grid", "considered-grid", "candidates-grid"]
+      .forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.replaceChildren();
+      });
+
+    var rounds = collectRounds(state.voices.candidates);
+    var newest = rounds[0];
+    var inRound = state.voices.candidates.filter(function (v) {
+      return (v.rounds || []).indexOf(state.activeRound) >= 0;
+    });
+
+    var groups = {
+      latest:     { ids: ["latest-section",       "latest-grid"],       items: [] },
+      willReplace:{ ids: ["will-replace-section", "will-replace-grid"], items: [] },
+      considered: { ids: ["considered-section",   "considered-grid"],   items: [] },
+      rest:       { ids: ["candidates-section",   "candidates-grid"],   items: [] },
+    };
+    if (state.activeRound === newest) {
+      inRound.forEach(function (v) {
+        if (v.latest) groups.latest.items.push(v);
+        else if (v.willReplace) groups.willReplace.items.push(v);
+        else if (v.consideredLastTime) groups.considered.items.push(v);
+        else groups.rest.items.push(v);
+      });
+    } else {
+      groups.rest.items = inRound;
+    }
+
+    Object.keys(groups).forEach(function (k) {
+      var g = groups[k];
+      var section = document.getElementById(g.ids[0]);
+      if (g.items.length) {
+        if (section) section.style.display = "";
+        renderCards(g.ids[1], g.items, false);
+      } else if (section) {
+        section.style.display = "none";
+      }
+    });
+    applyFilter();
   }
 
   // --- Voice Select Dropdown ---

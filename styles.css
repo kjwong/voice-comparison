@@ -9,10 +9,25 @@ body {
 header { margin-bottom: 2rem; }
 h1 { font-size: 1.75rem; font-weight: 600; margin-bottom: 1rem; }
 h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: #6e6e73; }
+.round-tabs {
+    display: flex; gap: 0.5rem; margin-bottom: 1.5rem;
+    border-bottom: 1px solid #d2d2d7; padding-bottom: 0;
+}
+.round-tab {
+    padding: 0.6rem 1.25rem; border: none; background: none;
+    font-family: inherit; font-size: 0.9rem; font-weight: 500;
+    color: #6e6e73; cursor: pointer; border-bottom: 2px solid transparent;
+    margin-bottom: -1px; transition: color 0.15s, border-color 0.15s;
+}
+.round-tab:hover { color: #1d1d1f; }
+.round-tab.active { color: #0071e3; border-bottom-color: #0071e3; }
+
+#latest-section h2,
 #will-replace-section h2,
 #considered-section h2,
 #candidates-section h2,
 #current-section h2 { margin-top: 2rem; }
+#latest-section:first-of-type h2 { margin-top: 0; }
 #latest-section h2 { color: #0071e3; }
 #latest-section .voice-card { border-color: #0071e3; box-shadow: 0 0 0 1px #0071e3 inset; }
 #will-replace-section h2 { color: #d70015; }
