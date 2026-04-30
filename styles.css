@@ -52,24 +52,6 @@ h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: #6e6e73; 
 }
 .filter-btn.active { background: #1d1d1f; color: white; border-color: #1d1d1f; }
 
-.custom-input { display: flex; gap: 0.5rem; align-items: flex-start; }
-#custom-text {
-    flex: 1; padding: 0.5rem 0.75rem; border: 1px solid #d2d2d7; border-radius: 0.5rem;
-    font-size: 0.85rem; font-family: inherit; resize: vertical;
-    min-height: 2.5rem; max-height: 6rem;
-}
-.generate-controls { display: flex; gap: 0.4rem; align-items: center; }
-.generate-controls select {
-    padding: 0.4rem 0.5rem; border: 1px solid #d2d2d7; border-radius: 0.5rem;
-    font-size: 0.85rem; font-family: inherit; background: white; cursor: pointer;
-}
-#voice-select { min-width: 140px; }
-#generate-btn {
-    padding: 0.5rem 1rem; border: 1px solid #0071e3; border-radius: 0.5rem;
-    background: #0071e3; color: white; cursor: pointer; font-size: 0.85rem; white-space: nowrap;
-}
-#generate-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
 .voice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
 
 .voice-card {
@@ -111,14 +93,6 @@ h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: #6e6e73; 
 .play-btn:hover { border-color: #0071e3; color: #0071e3; }
 .play-btn.playing { background: #0071e3; color: white; border-color: #0071e3; }
 
-.generate-btn {
-    padding: 0.35rem 0.75rem; border: 1px solid #34c759; border-radius: 0.4rem;
-    background: white; color: #34c759; cursor: pointer; font-size: 0.75rem; transition: all 0.15s;
-}
-.generate-btn:hover { background: #34c759; color: white; }
-.generate-btn.loading { opacity: 0.6; cursor: wait; }
-.generate-btn.failed { border-color: #ff3b30; color: #ff3b30; }
-
 .audio-progress {
     width: 100%; height: 3px; background: #e5e5e7; border-radius: 2px;
     margin-top: 0.75rem; overflow: hidden; display: none;
@@ -133,6 +107,4 @@ h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: #6e6e73; 
 @media (max-width: 640px) {
     body { padding: 1rem; }
     .voice-grid { grid-template-columns: 1fr; }
-    .custom-input { flex-direction: column; }
-    #custom-text { min-height: 3rem; }
 }

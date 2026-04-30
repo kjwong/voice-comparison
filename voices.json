@@ -594,7 +594,8 @@
       "rounds": [
         "2026-04-30"
       ],
-      "latest": true
+      "latest": true,
+      "bad": true
     },
     {
       "key": "algieba",

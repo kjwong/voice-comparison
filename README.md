@@ -6,7 +6,7 @@ Live: <https://kjwong.github.io/voice-comparison/>
 
 ## How it works
 
-`voices.json` is the source of truth. The page renders cards in five sections, controlled by per-voice flags:
+`voices.json` is the source of truth. The page renders cards in sections controlled by per-voice flags:
 
 | Section | Flag | Purpose |
 |---|---|---|
@@ -14,17 +14,18 @@ Live: <https://kjwong.github.io/voice-comparison/>
 | Will replace | `willReplace: true` | Voices in production we're moving off of |
 | Considered last time | `consideredLastTime: true` | Voices evaluated in a prior round, kept for reference |
 | New Voices | _(none)_ | Default bucket for candidates |
+| Bad | `bad: true` | Rejected after listening — kept visible for direct A/B |
 | Current Production Voices | _(in `current[]` array)_ | What we ship today |
 
-A voice belongs to exactly one section — flags are checked in the order above. Toggling a flag in `voices.json` is the only thing needed to move a card; no code change.
+Flags are checked in this order: `bad` → `latest` → `willReplace` → `consideredLastTime` → default. A voice belongs to exactly one section. Toggling a flag in `voices.json` is the only thing needed to move a card; no code change.
 
 ## Evaluation rounds (tabs)
 
 Every candidate also has a `rounds: ["YYYY-MM-DD"]` array indicating which evaluation sessions it belongs to. The page derives a tab bar from these dates, sorted newest-first, and defaults to the most recent round.
 
 - A voice can belong to multiple rounds (e.g., the Inworld voices are candidates on `2026-03-25` *and* "Will replace" on `2026-04-30`).
-- Section flags (`latest`, `willReplace`, `consideredLastTime`) are interpreted only on the most recent tab. Older tabs collapse all their voices into the "New Voices" section — those flags reflect today's framing, not historical context.
-- Production voices in `current[]` are tab-independent; they show on every tab.
+- Section flags (`latest`, `willReplace`, `consideredLastTime`, `bad`) are interpreted only on the most recent tab. Older tabs collapse all their voices into the "New Voices" section — those flags reflect today's framing, not historical context.
+- "Current Production Voices" is hidden on the newest tab (focused evaluation view) and visible on older tabs (historical context).
 
 To start a new evaluation round, pick a date and add it to the `rounds` array of voices you're including. A new tab appears automatically.
 
@@ -42,9 +43,9 @@ The script skips voices whose MP3s already exist, so re-running is safe.
 
 ## Sample texts and speed variants
 
-Defined in `voices.json` under `samples`. The script generates five files per voice:
+Defined in `voices.json` under `samples`. The script generates six files per voice:
 
-- `sample1.mp3`, `sample2.mp3`, `sample3.mp3` (one per text)
+- `sample1.mp3`, `sample2.mp3`, `sample3.mp3`, `sample4.mp3` (one per text)
 - `sample1_slow.mp3` (0.75×), `sample1_fast.mp3` (1.2×)
 
 Speed control quirks per provider:

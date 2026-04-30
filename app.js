@@ -9,8 +9,6 @@
     providerFilter: "all",
     activeRound: null,
     starred: JSON.parse(localStorage.getItem("starred") || "[]"),
-    proxyUrl: "",
-    proxyKey: "",
   };
 
   var SAMPLE_TYPES = ["sample1", "sample2", "sample3", "sample4", "sample1_slow", "sample1_fast"];
@@ -30,11 +28,8 @@
         renderRoundTabs(rounds);
         renderCandidates();
         renderCards("current-grid", data.current, true);
-        populateVoiceSelect();
         populateProviderFilters(data);
         bindFilterButtons();
-        bindCustomInput();
-        bindGenerate();
       });
   }
 
@@ -116,31 +111,6 @@
     if (currentSection) currentSection.style.display = isNewest ? "none" : "";
 
     applyFilter();
-  }
-
-  // --- Voice Select Dropdown ---
-  function populateVoiceSelect() {
-    var select = document.getElementById("voice-select");
-    var all = state.voices.candidates.concat(state.voices.current);
-
-    var groups = {};
-    all.forEach(function (v) {
-      var label = v.provider;
-      if (!groups[label]) groups[label] = [];
-      groups[label].push(v);
-    });
-
-    Object.keys(groups).forEach(function (provider) {
-      var optgroup = document.createElement("optgroup");
-      optgroup.label = provider;
-      groups[provider].forEach(function (v) {
-        var opt = document.createElement("option");
-        opt.value = v.key;
-        opt.textContent = v.name + " (" + v.accent + " " + v.gender + ")";
-        optgroup.appendChild(opt);
-      });
-      select.appendChild(optgroup);
-    });
   }
 
   // --- Card Rendering ---
@@ -234,15 +204,6 @@
       btn.textContent = "Error";
       setTimeout(function () { resetBtnLabel(btn); }, 2000);
     });
-    audio.play();
-  }
-
-  function playAudioFromUrl(url) {
-    stopAudio();
-    var audio = new Audio(url);
-    state.currentAudio = audio;
-    state.currentBtn = null;
-    audio.addEventListener("ended", stopAudio);
     audio.play();
   }
 
@@ -345,74 +306,6 @@
       btn.classList.add("starred");
     }
     localStorage.setItem("starred", JSON.stringify(state.starred));
-  }
-
-  // --- Custom Input + Generate ---
-  function bindCustomInput() {
-    var ta = document.getElementById("custom-text");
-    ta.addEventListener("input", function () {
-      updateGenerateBtn();
-    });
-    document.getElementById("voice-select").addEventListener("change", updateGenerateBtn);
-  }
-
-  function updateGenerateBtn() {
-    var btn = document.getElementById("generate-btn");
-    var text = document.getElementById("custom-text").value.trim();
-    var voice = document.getElementById("voice-select").value;
-    btn.disabled = !text || !voice || !state.proxyUrl;
-  }
-
-  function bindGenerate() {
-    document.getElementById("generate-btn").addEventListener("click", function () {
-      var btn = document.getElementById("generate-btn");
-      var text = document.getElementById("custom-text").value.trim();
-      var voiceKey = document.getElementById("voice-select").value;
-      var speed = parseFloat(document.getElementById("speed-select").value);
-
-      if (!text || !voiceKey || !state.proxyUrl) return;
-
-      var all = state.voices.candidates.concat(state.voices.current);
-      var voice = null;
-      for (var i = 0; i < all.length; i++) {
-        if (all[i].key === voiceKey) { voice = all[i]; break; }
-      }
-      if (!voice) return;
-
-      btn.disabled = true;
-      btn.textContent = "Generating...";
-
-      fetch(state.proxyUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-proxy-key": state.proxyKey,
-        },
-        body: JSON.stringify({
-          provider: voice.provider,
-          voice_id: voice.voiceId,
-          text: text,
-          model: voice.model,
-          speed: speed,
-        }),
-      })
-        .then(function (resp) {
-          if (!resp.ok) throw new Error("HTTP " + resp.status);
-          return resp.blob();
-        })
-        .then(function (blob) {
-          var url = URL.createObjectURL(blob);
-          btn.disabled = false;
-          btn.textContent = "Generate";
-          playAudioFromUrl(url);
-        })
-        .catch(function (err) {
-          btn.disabled = false;
-          btn.textContent = "Failed — retry?";
-          console.error("Generate failed:", err);
-          setTimeout(function () { btn.textContent = "Generate"; }, 3000);
-        });
-    });
   }
 
   // --- Boot ---
