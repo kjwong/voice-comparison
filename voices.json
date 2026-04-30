@@ -351,7 +351,8 @@
       "latest": true,
       "rounds": [
         "2026-04-30"
-      ]
+      ],
+      "bad": true
     },
     {
       "key": "leda",
@@ -385,7 +386,8 @@
       "latest": true,
       "rounds": [
         "2026-04-30"
-      ]
+      ],
+      "bad": true
     },
     {
       "key": "charon",
@@ -419,7 +421,8 @@
       "latest": true,
       "rounds": [
         "2026-04-30"
-      ]
+      ],
+      "bad": true
     },
     {
       "key": "aria-hd",
@@ -436,7 +439,8 @@
       "latest": true,
       "rounds": [
         "2026-04-30"
-      ]
+      ],
+      "bad": true
     },
     {
       "key": "sulafat",
@@ -487,7 +491,8 @@
       "latest": true,
       "rounds": [
         "2026-04-30"
-      ]
+      ],
+      "bad": true
     },
     {
       "key": "fenrir",

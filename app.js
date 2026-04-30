@@ -69,7 +69,7 @@
   }
 
   function renderCandidates() {
-    ["latest-grid", "will-replace-grid", "considered-grid", "candidates-grid"]
+    ["latest-grid", "will-replace-grid", "considered-grid", "candidates-grid", "bad-grid"]
       .forEach(function (id) {
         var el = document.getElementById(id);
         if (el) el.replaceChildren();
@@ -77,6 +77,7 @@
 
     var rounds = collectRounds(state.voices.candidates);
     var newest = rounds[0];
+    var isNewest = state.activeRound === newest;
     var inRound = state.voices.candidates.filter(function (v) {
       return (v.rounds || []).indexOf(state.activeRound) >= 0;
     });
@@ -86,10 +87,12 @@
       willReplace:{ ids: ["will-replace-section", "will-replace-grid"], items: [] },
       considered: { ids: ["considered-section",   "considered-grid"],   items: [] },
       rest:       { ids: ["candidates-section",   "candidates-grid"],   items: [] },
+      bad:        { ids: ["bad-section",          "bad-grid"],          items: [] },
     };
-    if (state.activeRound === newest) {
+    if (isNewest) {
       inRound.forEach(function (v) {
-        if (v.latest) groups.latest.items.push(v);
+        if (v.bad) groups.bad.items.push(v);
+        else if (v.latest) groups.latest.items.push(v);
         else if (v.willReplace) groups.willReplace.items.push(v);
         else if (v.consideredLastTime) groups.considered.items.push(v);
         else groups.rest.items.push(v);
@@ -108,6 +111,10 @@
         section.style.display = "none";
       }
     });
+
+    var currentSection = document.getElementById("current-section");
+    if (currentSection) currentSection.style.display = isNewest ? "none" : "";
+
     applyFilter();
   }
 

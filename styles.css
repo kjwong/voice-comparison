@@ -26,6 +26,7 @@ h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: #6e6e73; 
 #will-replace-section h2,
 #considered-section h2,
 #candidates-section h2,
+#bad-section h2,
 #current-section h2 { margin-top: 2rem; }
 #latest-section:first-of-type h2 { margin-top: 0; }
 #latest-section h2 { color: #0071e3; }
@@ -34,6 +35,13 @@ h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: #6e6e73; 
 #will-replace-section .voice-card { background: #fff5f5; border-color: #ffb3b3; }
 #considered-section h2 { color: #8e8e93; }
 #considered-section .voice-card { background: #fafafa; border-style: dashed; }
+#bad-section h2 { color: #8e8e93; }
+#bad-section .voice-card {
+    background: #f5f5f7; border-color: #d2d2d7; opacity: 0.65;
+    transition: opacity 0.15s;
+}
+#bad-section .voice-card:hover { opacity: 1; }
+#bad-section .voice-name { text-decoration: line-through; text-decoration-color: #d2d2d7; }
 .controls { display: flex; flex-direction: column; gap: 0.75rem; }
 
 .filters { display: flex; gap: 1rem; flex-wrap: wrap; }
