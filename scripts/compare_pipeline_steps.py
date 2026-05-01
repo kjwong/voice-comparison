@@ -30,6 +30,7 @@ import argparse
 import array
 import base64
 import io
+import math
 import os
 import struct
 import time
@@ -100,14 +101,30 @@ def pcm_to_wav(pcm_bytes: bytes, sample_rate: int = SAMPLE_RATE) -> bytes:
     )
 
 
-def pad_and_fade_pcm(pcm_bytes: bytes, silence_ms: int = 20, fade_ms: int = 5) -> bytes:
+def pad_and_fade_pcm(
+    pcm_bytes: bytes,
+    silence_ms: int = 20,
+    fade_ms: int = 5,
+    fade_curve: str = "linear",
+) -> bytes:
+    """fade_curve: 'linear', 'cosine' (Hann window), or 'none' (no fade, just silence)."""
     samples = array.array("h")
     samples.frombytes(pcm_bytes)
-    fade_samples = min(round(SAMPLE_RATE * fade_ms / 1000), len(samples))
-    if fade_samples > 1:
-        denom = fade_samples - 1
-        for i in range(fade_samples):
-            samples[i] = int(samples[i] * i / denom)
+    if fade_curve != "none":
+        fade_samples = min(round(SAMPLE_RATE * fade_ms / 1000), len(samples))
+        if fade_samples > 1:
+            if fade_curve == "linear":
+                denom = fade_samples - 1
+                for i in range(fade_samples):
+                    samples[i] = int(samples[i] * i / denom)
+            elif fade_curve == "cosine":
+                # 0.5 - 0.5*cos(πi/(n-1)): zero slope at both ends, no envelope corner
+                denom = fade_samples - 1
+                for i in range(fade_samples):
+                    multiplier = 0.5 - 0.5 * math.cos(math.pi * i / denom)
+                    samples[i] = int(samples[i] * multiplier)
+            else:
+                raise ValueError(f"unknown fade_curve: {fade_curve}")
     silence_samples = round(SAMPLE_RATE * silence_ms / 1000)
     silence = array.array("h", [0] * silence_samples)
     return (silence + samples).tobytes()
@@ -185,16 +202,31 @@ def main():
     print(f"  got {len(pcm)//1024}KB PCM in {(time.perf_counter()-t0)*1000:.0f}ms")
     print(f"  output dir: {out_dir}\n")
 
+    declicked = declick_pcm(pcm)
+
     variants = {
         "00_source.wav": pcm_to_wav(pcm),
         "01_raw_pcm_to_mp3.mp3": pcm_to_mp3(pcm),
         "02_pad_fade_only.mp3": pcm_to_mp3(pad_and_fade_pcm(pcm)),
-        "03_declick_only.mp3": pcm_to_mp3(declick_pcm(pcm)),
-        "04_full_pipeline.mp3": pcm_to_mp3(pad_and_fade_pcm(declick_pcm(pcm))),
+        "03_declick_only.mp3": pcm_to_mp3(declicked),
+        "04_full_pipeline_LINEAR_5ms.mp3": pcm_to_mp3(
+            pad_and_fade_pcm(declicked, silence_ms=20, fade_ms=5, fade_curve="linear")
+        ),
         "05_declick_old_tune.mp3": pcm_to_mp3(
             pad_and_fade_pcm(
                 declick_pcm(pcm, floor=8000, factor=5, gap_tolerance=5, max_iterations=1)
             )
+        ),
+        # New thump-investigation variants — all use declick + same silence_ms,
+        # differing only in fade design.
+        "06_no_fade_30ms_silence.mp3": pcm_to_mp3(
+            pad_and_fade_pcm(declicked, silence_ms=30, fade_ms=0, fade_curve="none")
+        ),
+        "07_cosine_5ms_30ms_silence.mp3": pcm_to_mp3(
+            pad_and_fade_pcm(declicked, silence_ms=30, fade_ms=5, fade_curve="cosine")
+        ),
+        "08_cosine_15ms_30ms_silence.mp3": pcm_to_mp3(
+            pad_and_fade_pcm(declicked, silence_ms=30, fade_ms=15, fade_curve="cosine")
         ),
     }
 
